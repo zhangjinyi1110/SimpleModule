@@ -1,25 +1,26 @@
 package com.zjy.simplemodule;
 
+import android.arch.lifecycle.Observer;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
-import com.zjy.simplemodule.adapter.BaseAdapter;
-import com.zjy.simplemodule.adapter.viewholder.SimpleViewHolder;
+import com.zjy.simplemodule.adapter.BindingAdapter;
 import com.zjy.simplemodule.base.BindingFragment;
 import com.zjy.simplemodule.databinding.FragmentMainBinding;
+import com.zjy.simplemodule.databinding.ItemFMainBinding;
 import com.zjy.simplemodule.utils.SizeUtils;
+import com.zjy.simplemodule.utils.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends BindingFragment<MainViewModel, FragmentMainBinding> {
 
-    private BaseAdapter<String> adapter;
+    private BindingAdapter<ChapterModel, ItemFMainBinding> adapter;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -32,20 +33,15 @@ public class MainFragment extends BindingFragment<MainViewModel, FragmentMainBin
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        adapter = new BaseAdapter<String>(getContext()) {
+        adapter = new BindingAdapter<ChapterModel, ItemFMainBinding> (getContext()) {
+            @Override
+            protected void convert(ItemFMainBinding binding, ChapterModel model, int position) {
+                binding.itemMainText.setText(model.getName());
+            }
+
             @Override
             protected int getLayoutId(int type) {
                 return R.layout.item_f_main;
-            }
-
-            @Override
-            protected void convert(SimpleViewHolder holder, String s, int position) {
-                ((TextView) holder.findViewById(R.id.item_main_text)).setText(s);
-            }
-
-            @Override
-            protected SimpleViewHolder getViewHolder(View view) {
-                return new SimpleViewHolder(view);
             }
         };
         binding.mainTv.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -61,15 +57,24 @@ public class MainFragment extends BindingFragment<MainViewModel, FragmentMainBin
 
     @Override
     protected void initEvent() {
-
+        adapter.setItemClickListener(new BindingAdapter.OnItemClickListener<ChapterModel, ItemFMainBinding>() {
+            @Override
+            public void onItemClick(ItemFMainBinding binding, ChapterModel chapterModel, int position) {
+                ToastUtils.showToastShort(getContext(), chapterModel.getName());
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            list.add("message" + i);
-        }
-        adapter.addList(list);
+        viewModel.getChapterList().observe(this, new Observer<List<ChapterModel>>() {
+            @Override
+            public void onChanged(@Nullable List<ChapterModel> chapterModels) {
+                if (chapterModels != null) {
+                    adapter.addList(chapterModels);
+                    adapter.setLoadEnable(false);
+                }
+            }
+        });
     }
 }

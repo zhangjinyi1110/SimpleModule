@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable;
 public class BaseViewModel<R extends BaseRepository> extends AndroidViewModel {
 
     protected R repository;
+    protected final String TAG = this.getClass().getSimpleName();
 
     public BaseViewModel(@NonNull Application application) {
         super(application);
@@ -44,23 +45,8 @@ public class BaseViewModel<R extends BaseRepository> extends AndroidViewModel {
         return null;
     }
 
-    protected void addDisposable(Disposable disposable) {
-        repository.addDisposable(disposable);
-    }
-
-    protected void clearDisposable() {
-        repository.clearDisposable();
-    }
-
-    protected boolean isDisposed() {
-        return repository.isDisposed();
-    }
-
     @Override
     protected void onCleared() {
         super.onCleared();
-        if (repository.isDisposed()) {
-            repository.clearDisposable();
-        }
     }
 }

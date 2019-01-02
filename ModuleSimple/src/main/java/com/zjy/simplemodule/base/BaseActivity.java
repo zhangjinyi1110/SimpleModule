@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.zjy.simplemodule.utils.ActivityManager;
 import com.zjy.simplemodule.utils.GenericityUtils;
 
 public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatActivity {
@@ -25,6 +26,7 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         } else {
             bindingView();
         }
+        ActivityManager.getInstance().addActivity(this);
         viewModel = getViewModel();
         if (getToolBar() != null) {
             setSupportActionBar(getToolBar());

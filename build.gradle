@@ -43,6 +43,9 @@ ext {
     retrofit = retrofitVersion
     converterGson = retrofitVersion
     adapterRxjava2 = retrofitVersion
+    autodisposeVersion = "0.8.0"
+    autodispose = autodisposeVersion
+    autodisposeAndroidArchcomponents = autodisposeVersion
 
     android = [
             compileSdkVersion: 28,
@@ -70,6 +73,8 @@ ext {
             "retrofit":"com.squareup.retrofit2:retrofit:$retrofitVersion",
             "converter-gson":"com.squareup.retrofit2:converter-gson:$converterGson",
             "adapter-rxjava2":"com.squareup.retrofit2:adapter-rxjava2:$adapterRxjava2",
-            "support-v4":"com.android.support:support-v4:$supportV4"
+            "support-v4":"com.android.support:support-v4:$supportV4",
+            "autodispose":"com.uber.autodispose:autodispose:$autodispose",
+            "autodispose-android-archcomponents":"com.uber.autodispose:autodispose-android-archcomponents:$autodisposeAndroidArchcomponents"
     ]
 }

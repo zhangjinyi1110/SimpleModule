@@ -19,6 +19,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     private FragmentActivity activity;
     protected VM viewModel;
     private boolean isFirst;
+    protected final String TAG = getClass().getSimpleName();
 
     @Override
     public void onAttach(Context context) {

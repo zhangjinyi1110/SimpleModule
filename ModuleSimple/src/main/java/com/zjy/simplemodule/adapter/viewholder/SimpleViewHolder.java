@@ -4,10 +4,13 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class SimpleViewHolder<B extends ViewDataBinding> extends RecyclerView.ViewHolder {
 
-    B binding;
+    public B binding;
 
     public SimpleViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -20,6 +23,18 @@ public class SimpleViewHolder<B extends ViewDataBinding> extends RecyclerView.Vi
 
     public <T extends View> T findViewById(int viewId) {
         return itemView.findViewById(viewId);
+    }
+
+    public TextView findTextViewById(int viewId) {
+        return findViewById(viewId);
+    }
+
+    public EditText findEditViewById(int viewId) {
+        return findViewById(viewId);
+    }
+
+    public ImageView findImageViewById(int viewId) {
+        return findViewById(viewId);
     }
 
 }

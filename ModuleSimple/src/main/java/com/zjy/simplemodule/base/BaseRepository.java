@@ -1,6 +1,10 @@
 package com.zjy.simplemodule.base;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+
+import com.zjy.simplemodule.utils.ActivityManager;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -8,30 +12,20 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseRepository {
 
     private Context context;
-    private CompositeDisposable disposables;
 
     public void with(Context context) {
         this.context = context;
-        disposables = new CompositeDisposable();
         init();
     }
 
     protected abstract void init();
 
-    protected void addDisposable(Disposable disposable) {
-        disposables.add(disposable);
-    }
-
-    protected void clearDisposable() {
-        disposables.clear();
-    }
-
-    protected boolean isDisposed() {
-        return disposables.isDisposed();
-    }
-
     public Context getContext() {
         return context;
+    }
+
+    public FragmentActivity getCurrActivity() {
+        return ActivityManager.getInstance().getCurrActivity();
     }
 
 }
