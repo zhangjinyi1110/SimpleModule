@@ -1,6 +1,6 @@
 package com.zjy.simplemodule;
 
-import com.zjy.simplemodule.model.HttpResult;
+import com.zjy.simplemodule.retrofit.HttpResult;
 
 import java.util.List;
 

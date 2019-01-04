@@ -1,4 +1,4 @@
-package com.zjy.simplemodule.exception;
+package com.zjy.simplemodule.retrofit;
 
 public class NullResultException extends Exception {
 

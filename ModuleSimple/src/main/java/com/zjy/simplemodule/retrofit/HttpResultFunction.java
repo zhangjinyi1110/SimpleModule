@@ -1,7 +1,4 @@
-package com.zjy.simplemodule.function;
-
-import com.zjy.simplemodule.model.HttpResult;
-import com.zjy.simplemodule.exception.NullResultException;
+package com.zjy.simplemodule.retrofit;
 
 import org.reactivestreams.Publisher;
 

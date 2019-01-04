@@ -1,6 +1,5 @@
 package com.zjy.simplemodule.utils;
 
-import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.ArrayList;
@@ -38,6 +37,13 @@ public class ActivityManager {
 
     public FragmentActivity getCurrActivity() {
         return activities.get(activities.size() - 1);
+    }
+
+    public ActivityManager clear() {
+        for (FragmentActivity a : activities) {
+            a.finish();
+        }
+        return manager;
     }
 
 }

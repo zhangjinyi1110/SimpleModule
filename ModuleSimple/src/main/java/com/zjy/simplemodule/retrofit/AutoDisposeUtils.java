@@ -1,4 +1,4 @@
-package com.zjy.simplemodule.utils;
+package com.zjy.simplemodule.retrofit;
 
 import android.arch.lifecycle.LifecycleOwner;
 

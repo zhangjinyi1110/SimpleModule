@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<SimpleViewHold
     private boolean loadEnable;
     private boolean hasData = false;
     private boolean isLoad = false;
+    private boolean footerFullSpan = true;
+    private boolean headerFullSpan = true;
     private View headView;
     private View footerView;
     private View loadView;
@@ -191,6 +194,12 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<SimpleViewHold
         return list;
     }
 
+    public void clear() {
+        if (list != null) {
+            list.clear();
+        }
+    }
+
     public void setLoad(boolean load) {
         isLoad = load;
     }
@@ -294,6 +303,35 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<SimpleViewHold
 
     public Context getContext() {
         return context;
+    }
+
+    public void setFooterFullSpan(boolean footerFullSpan) {
+        this.footerFullSpan = footerFullSpan;
+    }
+
+    public void setHeaderFullSpan(boolean headerFullSpan) {
+        this.headerFullSpan = headerFullSpan;
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull SimpleViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if (holder.getLayoutPosition() == getItemCount() - 1 && footerFullSpan) {
+            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+            if (layoutParams != null) {
+                if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+                    ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
+                }
+            }
+        }
+        if (holder.getLayoutPosition() == 0 && headerFullSpan) {
+            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+            if (layoutParams != null) {
+                if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+                    ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
+                }
+            }
+        }
     }
 
     public void setItemClickListener(OnItemClickListener<T> itemClickListener) {

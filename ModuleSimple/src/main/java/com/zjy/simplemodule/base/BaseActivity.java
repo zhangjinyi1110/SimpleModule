@@ -40,7 +40,7 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
     private VM getViewModel() {
         try {
             return ViewModelProviders.of(this).get(GenericityUtils.<VM>getGenericity(this.getClass()));
-        } catch (ClassCastException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "getViewModel: " + e.toString());
             return null;
@@ -70,6 +70,10 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         return false;
     }
 
+    protected BaseActivity getSelf() {
+        return this;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -87,6 +91,7 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        viewModel.onCleared();
+        if (viewModel != null)
+            viewModel.onCleared();
     }
 }

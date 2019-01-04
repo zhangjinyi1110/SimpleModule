@@ -1,4 +1,4 @@
-package com.zjy.simplemodule.model;
+package com.zjy.simplemodule.retrofit;
 
 public class HttpResult<T> {
 

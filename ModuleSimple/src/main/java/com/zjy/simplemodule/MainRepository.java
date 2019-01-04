@@ -1,10 +1,10 @@
 package com.zjy.simplemodule;
 
 import com.zjy.simplemodule.base.BaseRepository;
-import com.zjy.simplemodule.base.BaseSubscriber;
-import com.zjy.simplemodule.transformer.HttpResultTransformer;
-import com.zjy.simplemodule.utils.AutoDisposeUtils;
-import com.zjy.simplemodule.utils.RetrofitUtils;
+import com.zjy.simplemodule.retrofit.BaseSubscriber;
+import com.zjy.simplemodule.retrofit.HttpResultTransformer;
+import com.zjy.simplemodule.retrofit.AutoDisposeUtils;
+import com.zjy.simplemodule.retrofit.RetrofitUtils;
 
 import java.util.List;
 

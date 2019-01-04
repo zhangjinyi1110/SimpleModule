@@ -1,9 +1,6 @@
-package com.zjy.simplemodule.transformer;
+package com.zjy.simplemodule.retrofit;
 
 import android.content.Context;
-
-import com.zjy.simplemodule.model.HttpResult;
-import com.zjy.simplemodule.function.HttpResultFunction;
 
 import org.reactivestreams.Publisher;
 
