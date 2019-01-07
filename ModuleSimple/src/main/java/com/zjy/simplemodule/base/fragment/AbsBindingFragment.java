@@ -1,4 +1,4 @@
-package com.zjy.simplemodule.base;
+package com.zjy.simplemodule.base.fragment;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class BindingFragment<VM extends BaseViewModel, B extends ViewDataBinding> extends BaseFragment<VM> {
+import com.zjy.simplemodule.base.BaseViewModel;
+
+public abstract class AbsBindingFragment<VM extends BaseViewModel, B extends ViewDataBinding> extends AbsFragment<VM> {
 
     protected B binding;
 

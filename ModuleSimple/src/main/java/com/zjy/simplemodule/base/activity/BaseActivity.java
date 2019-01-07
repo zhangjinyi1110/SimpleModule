@@ -1,21 +1,17 @@
-package com.zjy.simplemodule.base;
+package com.zjy.simplemodule.base.activity;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.zjy.simplemodule.utils.ActivityManager;
-import com.zjy.simplemodule.utils.GenericityUtils;
 
-public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
-    protected VM viewModel;
     protected final String TAG = getClass().getSimpleName();
 
     @Override
@@ -26,8 +22,10 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         } else {
             bindingView();
         }
+        if (isViewModel()) {
+            initViewModel();
+        }
         ActivityManager.getInstance().addActivity(this);
-        viewModel = getViewModel();
         if (getToolBar() != null) {
             setSupportActionBar(getToolBar());
             initToolbar(getSupportActionBar());
@@ -35,16 +33,6 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         initView(savedInstanceState);
         initEvent();
         initData();
-    }
-
-    private VM getViewModel() {
-        try {
-            return ViewModelProviders.of(this).get(GenericityUtils.<VM>getGenericity(this.getClass()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "getViewModel: " + e.toString());
-            return null;
-        }
     }
 
     @LayoutRes
@@ -57,6 +45,14 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
     protected abstract void initData();
 
     protected void bindingView() {
+    }
+
+    protected void initViewModel() {
+
+    }
+
+    protected boolean isViewModel() {
+        return false;
     }
 
     protected Toolbar getToolBar() {
@@ -88,10 +84,4 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         return true;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (viewModel != null)
-            viewModel.onCleared();
-    }
 }

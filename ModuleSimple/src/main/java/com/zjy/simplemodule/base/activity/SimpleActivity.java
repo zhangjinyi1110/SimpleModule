@@ -1,13 +1,15 @@
-package com.zjy.simplemodule.base;
+package com.zjy.simplemodule.base.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.zjy.simplemodule.base.BaseViewModel;
+
 import java.util.List;
 
-public abstract class SimpleActivity<VM extends BaseViewModel> extends BaseActivity<VM> {
+public abstract class SimpleActivity<VM extends BaseViewModel> extends AbsActivity<VM> {
 
     private FragmentManager manager;
     private Fragment currFragment;
@@ -19,10 +21,11 @@ public abstract class SimpleActivity<VM extends BaseViewModel> extends BaseActiv
             manager.getFragments().clear();
         }
         currFragment = getFragment();
-        manager.beginTransaction()
-                .add(getContentId(), currFragment, currFragment.getClass().getSimpleName())
-                .commit();
-        init(savedInstanceState);
+        if (currFragment != null) {
+            manager.beginTransaction()
+                    .add(getContentId(), currFragment, currFragment.getClass().getSimpleName())
+                    .commit();
+        }
     }
 
     @Override
@@ -31,9 +34,6 @@ public abstract class SimpleActivity<VM extends BaseViewModel> extends BaseActiv
 
     @Override
     protected void initData() {
-    }
-
-    protected void init(Bundle savedInstanceState) {
     }
 
     protected void changeFragment(Fragment fragment) {

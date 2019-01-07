@@ -1,4 +1,4 @@
-package com.zjy.simplemodule.base;
+package com.zjy.simplemodule.base.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -14,10 +14,9 @@ import android.view.ViewGroup;
 
 import com.zjy.simplemodule.utils.GenericityUtils;
 
-public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     private FragmentActivity activity;
-    protected VM viewModel;
     private boolean isFirst;
     protected final String TAG = getClass().getSimpleName();
 
@@ -44,7 +43,8 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
         } else {
             view = inflater.inflate(getLayoutId(), container, false);
         }
-        viewModel = getViewModel();
+        if (isViewModel())
+            initViewModel();
         initView(savedInstanceState);
         initEvent();
         if (isFirst && isLazy()) {
@@ -52,15 +52,6 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
             initData();
         }
         return view;
-    }
-
-    private VM getViewModel() {
-        try {
-            return ViewModelProviders.of(this).get(GenericityUtils.<VM>getGenericity(getClass()));
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Override
@@ -77,6 +68,14 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
 
     protected boolean isBinding() {
         return false;
+    }
+
+    protected boolean isViewModel() {
+        return false;
+    }
+
+    protected void initViewModel(){
+
     }
 
     @LayoutRes
