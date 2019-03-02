@@ -1,5 +1,7 @@
 package com.zjy.simplemodule.retrofit;
 
+import com.google.gson.JsonSyntaxException;
+
 import org.json.JSONException;
 
 import java.net.ConnectException;
@@ -35,7 +37,7 @@ public class HttpResultException extends Exception {
         } else if (throwable instanceof ConnectException || throwable instanceof SocketTimeoutException || throwable instanceof UnknownHostException) {
             this.errorType =CONNECT_ERROR;
             this.errorMessage = "连接错误";
-        } else if (throwable instanceof JSONException || throwable instanceof ParseException) {
+        } else if (throwable instanceof JSONException || throwable instanceof ParseException || throwable instanceof JsonSyntaxException) {
             this.errorType =JSON_ERROR;
             this.errorMessage = "解析错误";
         } else {

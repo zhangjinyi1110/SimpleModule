@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.zjy.simplemodule.base.BaseApplication;
 import com.zjy.simplemodule.utils.ActivityManager;
 import com.zjy.simplemodule.utils.NetWorkUtils;
 import com.zjy.simplemodule.utils.ToastUtils;
@@ -18,6 +19,7 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
     private LoadDialog dialog;
     private View loadView;
     private String loadText;
+    private boolean showLoad;
 
     public BaseSubscriber() {
     }
@@ -36,24 +38,28 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
         this.loadText = loadText;
     }
 
+    public BaseSubscriber(Context context, boolean showLoad) {
+        this.context = context;
+        this.showLoad = showLoad;
+    }
+
     @Override
     public void onSubscribe(Subscription s) {
         s.request(Long.MAX_VALUE);
-        if (!NetWorkUtils.isNetworkAvailable(ActivityManager.getInstance().getCurrActivity())) {
+        if (!NetWorkUtils.isNetworkAvailable(BaseApplication.getContext())) {
             ToastUtils.showToastShort(ActivityManager.getInstance().getCurrActivity(), "没有网络服务");
             s.cancel();
             return;
         }
-        if (context != null) {
-            if (loadView != null) {
-                dialog = new LoadDialog(context, loadView);
-            } else if (!TextUtils.isEmpty(loadText)) {
-                dialog = new LoadDialog(context, loadText);
-            } else {
-                dialog = new LoadDialog(context);
-            }
-            dialog.show();
+        if (loadView != null) {
+            dialog = new LoadDialog(context, loadView);
+        } else if (!TextUtils.isEmpty(loadText)) {
+            dialog = new LoadDialog(context, loadText);
+        } else if (showLoad) {
+            dialog = new LoadDialog(context);
         }
+        if (dialog != null)
+            dialog.show();
     }
 
     @Override
@@ -63,7 +69,7 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onError(Throwable t) {
-        if (context != null) {
+        if (dialog != null) {
             dialog.dismiss();
         }
         onFailure(new HttpResultException(t));
@@ -71,7 +77,7 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
 
     @Override
     public void onComplete() {
-        if (context != null) {
+        if (dialog != null) {
             dialog.dismiss();
         }
     }

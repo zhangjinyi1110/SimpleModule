@@ -42,7 +42,8 @@ public class HttpResultTransformer<T> implements FlowableTransformer<HttpResult<
 
     @Override
     public Publisher<T> apply(Flowable<HttpResult<T>> upstream) {
-        return upstream.subscribeOn(Schedulers.io())
+        return upstream.retryWhen(new RetryFunction())
+                .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .flatMap(new HttpResultFunction<T>())
                 .observeOn(AndroidSchedulers.mainThread())

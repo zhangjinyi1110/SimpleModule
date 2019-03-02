@@ -41,7 +41,7 @@ ext {
     lifecycle = "1.1.1"
     retrofitVersion = "2.3.0"
     retrofit = retrofitVersion
-    okhttpVersion = "3.13.1"
+    okhttpVersion = "3.8.1"
     converterGson = retrofitVersion
     adapterRxjava2 = retrofitVersion
     autodisposeVersion = "0.8.0"

@@ -4,7 +4,7 @@
     <item>
 
         <rotate android:toDegrees="0"
-            android:fromDegrees="360"
+            android:fromDegrees="720"
             android:pivotX="50%"
             android:pivotY="50%"
             android:drawable="@drawable/load"

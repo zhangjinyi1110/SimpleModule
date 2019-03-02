@@ -9,12 +9,14 @@ import okhttp3.Interceptor;
 public class RetrofitConfig {
 
     static TimeUnit timeUnit = TimeUnit.SECONDS;
-    static long writeTimeout = 50000;
-    static long readTimeout = 50000;
-    static long connectTimeout = 50000;
+    static long writeTimeout = 5000;
+    static long readTimeout = 5000;
+    static long connectTimeout = 5000;
     static List<Interceptor> interceptors;
     static String baseUrl;
     static int successCode = 0;
+    static int retryCount = 5;
+    static long retryTime = 3000;
     private static RetrofitConfig config;
 
     public static RetrofitConfig newInstance() {
@@ -32,43 +34,53 @@ public class RetrofitConfig {
         interceptors = new ArrayList<>();
     }
 
-    public static RetrofitConfig setTimeUnit(TimeUnit timeUnit) {
+    public RetrofitConfig setTimeUnit(TimeUnit timeUnit) {
         RetrofitConfig.timeUnit = timeUnit;
         return config;
     }
 
-    public static RetrofitConfig setConnectTimeout(long connectTimeout) {
+    public RetrofitConfig setConnectTimeout(long connectTimeout) {
         RetrofitConfig.connectTimeout = connectTimeout;
         return config;
     }
 
-    public static RetrofitConfig setReadTimeout(long readTimeout) {
+    public RetrofitConfig setReadTimeout(long readTimeout) {
         RetrofitConfig.readTimeout = readTimeout;
         return config;
     }
 
-    public static RetrofitConfig setWriteTimeout(long writeTimeout) {
+    public RetrofitConfig setWriteTimeout(long writeTimeout) {
         RetrofitConfig.writeTimeout = writeTimeout;
         return config;
     }
 
-    public static RetrofitConfig addInterceptors(List<Interceptor> interceptors) {
+    public RetrofitConfig addInterceptors(List<Interceptor> interceptors) {
         RetrofitConfig.interceptors.addAll(interceptors);
         return config;
     }
 
-    public static RetrofitConfig addInterceptor(Interceptor interceptor) {
+    public RetrofitConfig addInterceptor(Interceptor interceptor) {
         RetrofitConfig.interceptors.add(interceptor);
         return config;
     }
 
-    public static RetrofitConfig setBaseUrl(String baseUrl) {
+    public RetrofitConfig setBaseUrl(String baseUrl) {
         RetrofitConfig.baseUrl = baseUrl;
         return config;
     }
 
-    public static RetrofitConfig setSuccessCode(int successCode) {
+    public RetrofitConfig setSuccessCode(int successCode) {
         RetrofitConfig.successCode = successCode;
+        return config;
+    }
+
+    public RetrofitConfig setRetryCount(int retryCount) {
+        RetrofitConfig.retryCount = retryCount;
+        return config;
+    }
+
+    public RetrofitConfig setRetryTime(long retryTime) {
+        RetrofitConfig.retryTime = retryTime;
         return config;
     }
 }

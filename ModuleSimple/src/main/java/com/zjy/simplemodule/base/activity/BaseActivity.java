@@ -19,6 +19,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IActivit
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityManager.getInstance().addActivity(this);
         if (isSupportBinding()) {
             initBinding();
         } else {
@@ -36,7 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IActivit
         init(savedInstanceState);
         initEvent();
         initData();
-        ActivityManager.getInstance().addActivity(this);
     }
 
     private void initToolbar(ActionBar actionBar) {
