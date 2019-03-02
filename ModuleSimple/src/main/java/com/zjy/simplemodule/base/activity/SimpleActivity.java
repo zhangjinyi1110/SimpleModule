@@ -5,19 +5,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.zjy.simplemodule.base.BaseViewModel;
+import com.zjy.simplemodule.R;
 
 import java.util.List;
 
-public abstract class SimpleActivity<VM extends BaseViewModel> extends AbsActivity<VM> {
+public abstract class SimpleActivity extends BaseActivity {
 
     private FragmentManager manager;
     private Fragment currFragment;
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
+    public void init(Bundle savedInstanceState) {
         manager = getSupportFragmentManager();
         if (savedInstanceState != null) {
+            for (Fragment f : manager.getFragments()) {
+                manager.beginTransaction().remove(f).commit();
+            }
             manager.getFragments().clear();
         }
         currFragment = getFragment();
@@ -29,11 +32,16 @@ public abstract class SimpleActivity<VM extends BaseViewModel> extends AbsActivi
     }
 
     @Override
-    protected void initEvent() {
+    public void initEvent() {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
+    }
+
+    @Override
+    public int layoutId() {
+        return R.layout.activity_simple;
     }
 
     protected void changeFragment(Fragment fragment) {
@@ -46,7 +54,7 @@ public abstract class SimpleActivity<VM extends BaseViewModel> extends AbsActivi
                 transaction.add(getContentId(), fragment, fragment.getClass().getSimpleName());
             }
             currFragment = fragment;
-            transaction.commitNow();
+            transaction.commit();
         }
     }
 
@@ -76,7 +84,9 @@ public abstract class SimpleActivity<VM extends BaseViewModel> extends AbsActivi
         currFragment = fragment;
     }
 
-    protected abstract int getContentId();
+    protected int getContentId() {
+        return R.id.simple_container;
+    }
 
     protected abstract Fragment getFragment();
 

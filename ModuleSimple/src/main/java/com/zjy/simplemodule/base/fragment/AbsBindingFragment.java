@@ -13,14 +13,13 @@ public abstract class AbsBindingFragment<VM extends BaseViewModel, B extends Vie
     protected B binding;
 
     @Override
-    protected boolean isBinding() {
+    public boolean isSupportBinding() {
         return true;
     }
 
     @Override
-    protected View bindView(LayoutInflater inflater, ViewGroup container) {
-        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+    public View initBinding(LayoutInflater inflater, ViewGroup container) {
+        binding = DataBindingUtil.inflate(inflater, layoutId(), container, false);
         return binding.getRoot();
     }
-
 }

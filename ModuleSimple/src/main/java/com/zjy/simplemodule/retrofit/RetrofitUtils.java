@@ -1,8 +1,13 @@
 package com.zjy.simplemodule.retrofit;
 
-import java.util.concurrent.TimeUnit;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.zjy.simplemodule.BuildConfig;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -24,18 +29,18 @@ public class RetrofitUtils {
     }
 
     public <S> S createService(Class<S> sClass) {
-        return createService(sClass, "");
+        return createService(sClass, RetrofitConfig.baseUrl);
     }
 
     public <S> S createService(Class<S> sClass, String url) {
-        return getRetrofit(url).create(sClass);
+        return createService(sClass, url, getClient());
     }
 
-    public Retrofit getRetrofit(String url) {
-        return getRetrofit(url,getClient());
+    public <S> S createService(Class<S> sClass, String url, OkHttpClient client) {
+        return getRetrofit(url, client).create(sClass);
     }
 
-    public Retrofit getRetrofit(String url, OkHttpClient client) {
+    private Retrofit getRetrofit(String url, OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -46,11 +51,22 @@ public class RetrofitUtils {
 
     private OkHttpClient getClient() {
         if (client == null) {
-            client = new OkHttpClient.Builder()
-                    .writeTimeout(10000, TimeUnit.SECONDS)
-                    .readTimeout(10000, TimeUnit.SECONDS)
-                    .connectTimeout(10000, TimeUnit.SECONDS)
-                    .build();
+            OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                    .writeTimeout(RetrofitConfig.writeTimeout, RetrofitConfig.timeUnit)
+                    .readTimeout(RetrofitConfig.readTimeout, RetrofitConfig.timeUnit)
+                    .connectTimeout(RetrofitConfig.connectTimeout, RetrofitConfig.timeUnit);
+            for (Interceptor interceptor : RetrofitConfig.interceptors) {
+                builder.addInterceptor(interceptor);
+            }
+            if (BuildConfig.BUILD_TYPE.equals("debug")) {
+                builder.addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(@NonNull String message) {
+                        Log.e("okHttp3", "log: " + message);
+                    }
+                }));
+            }
+            client = builder.build();
         }
         return client;
     }

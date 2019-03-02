@@ -41,6 +41,7 @@ ext {
     lifecycle = "1.1.1"
     retrofitVersion = "2.3.0"
     retrofit = retrofitVersion
+    okhttpVersion = "3.13.1"
     converterGson = retrofitVersion
     adapterRxjava2 = retrofitVersion
     autodisposeVersion = "0.8.0"
@@ -71,6 +72,7 @@ ext {
             "disklrucache":"com.jakewharton:disklrucache:$disklrucache",
             "lifecycle-extensions":"android.arch.lifecycle:extensions:$lifecycle",
             "retrofit":"com.squareup.retrofit2:retrofit:$retrofitVersion",
+            "okhttp3-logging" : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
             "converter-gson":"com.squareup.retrofit2:converter-gson:$converterGson",
             "adapter-rxjava2":"com.squareup.retrofit2:adapter-rxjava2:$adapterRxjava2",
             "support-v4":"com.android.support:support-v4:$supportV4",

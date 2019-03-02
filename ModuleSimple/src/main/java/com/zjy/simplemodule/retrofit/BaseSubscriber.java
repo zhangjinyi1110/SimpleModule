@@ -1,12 +1,13 @@
 package com.zjy.simplemodule.retrofit;
 
 import android.content.Context;
-import android.util.Log;
+import android.text.TextUtils;
+import android.view.View;
 
-import com.zjy.simplemodule.retrofit.HttpResultException;
 import com.zjy.simplemodule.utils.ActivityManager;
 import com.zjy.simplemodule.utils.NetWorkUtils;
 import com.zjy.simplemodule.utils.ToastUtils;
+import com.zjy.simplemodule.widget.LoadDialog;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -14,12 +15,25 @@ import org.reactivestreams.Subscription;
 public abstract class BaseSubscriber<T> implements Subscriber<T> {
 
     private Context context;
+    private LoadDialog dialog;
+    private View loadView;
+    private String loadText;
 
     public BaseSubscriber() {
     }
 
     public BaseSubscriber(Context context) {
         this.context = context;
+    }
+
+    public BaseSubscriber(Context context, View loadView) {
+        this.context = context;
+        this.loadView = loadView;
+    }
+
+    public BaseSubscriber(Context context, String loadText) {
+        this.context = context;
+        this.loadText = loadText;
     }
 
     @Override
@@ -31,7 +45,14 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
             return;
         }
         if (context != null) {
-            //show load
+            if (loadView != null) {
+                dialog = new LoadDialog(context, loadView);
+            } else if (!TextUtils.isEmpty(loadText)) {
+                dialog = new LoadDialog(context, loadText);
+            } else {
+                dialog = new LoadDialog(context);
+            }
+            dialog.show();
         }
     }
 
@@ -43,19 +64,22 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
     @Override
     public void onError(Throwable t) {
         if (context != null) {
-            //dismiss load
+            dialog.dismiss();
         }
-        onFailure(new HttpResultException(-1, "", t));
+        onFailure(new HttpResultException(t));
     }
 
     @Override
     public void onComplete() {
         if (context != null) {
-            //dismiss load
+            dialog.dismiss();
         }
     }
 
     public abstract void onSuccess(T t);
 
-    public abstract void onFailure(HttpResultException exception);
+    public void onFailure(HttpResultException exception) {
+        if (context != null)
+            ToastUtils.showToastShort(context, exception.getErrorMessage());
+    }
 }

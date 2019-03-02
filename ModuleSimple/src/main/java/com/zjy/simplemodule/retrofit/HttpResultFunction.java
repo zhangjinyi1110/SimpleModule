@@ -9,8 +9,8 @@ public class HttpResultFunction<T> implements Function<HttpResult<T>, Publisher<
 
     @Override
     public Publisher<T> apply(HttpResult<T> tHttpResult) throws Exception {
-        if (tHttpResult.getData() == null) {
-            return Flowable.error(new NullResultException());
+        if (RetrofitConfig.successCode != tHttpResult.getErrorCode()) {
+            return Flowable.error(new HttpFailureException(tHttpResult.getErrorCode(), tHttpResult.getErrorMsg()));
         }
         return Flowable.just(tHttpResult.getData());
     }

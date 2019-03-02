@@ -6,17 +6,18 @@ import android.util.Log;
 import com.zjy.simplemodule.base.BaseViewModel;
 import com.zjy.simplemodule.utils.GenericityUtils;
 
-public abstract class AbsActivity<VM extends BaseViewModel> extends BaseActivity {
+public abstract class BaseVMActivity<VM extends BaseViewModel> extends BaseActivity {
 
     protected VM viewModel;
 
     @Override
-    protected boolean isViewModel() {
+    public boolean isSupportViewModel() {
         return true;
     }
 
     @Override
-    protected void initViewModel() {
+    public void initViewModel() {
+        super.initViewModel();
         viewModel = getViewModel();
     }
 

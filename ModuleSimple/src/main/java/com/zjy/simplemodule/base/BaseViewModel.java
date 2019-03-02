@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.zjy.simplemodule.utils.GenericityUtils;
 
-import io.reactivex.disposables.Disposable;
-
 public class BaseViewModel<R extends BaseRepository> extends AndroidViewModel {
 
     protected R repository;
@@ -27,7 +25,7 @@ public class BaseViewModel<R extends BaseRepository> extends AndroidViewModel {
                 r.with(getApplication());
                 return r;
             }
-        } catch (IllegalAccessException | InstantiationException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 //        ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();

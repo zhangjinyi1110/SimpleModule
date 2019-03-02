@@ -48,6 +48,7 @@ dependencies {
     implementation rootProject.ext.dependencies["rxandroid2"]
     implementation rootProject.ext.dependencies["disklrucache"]
     implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["okhttp3-logging"]
     implementation rootProject.ext.dependencies["adapter-rxjava2"]
     implementation rootProject.ext.dependencies["converter-gson"]
     implementation rootProject.ext.dependencies["support-v4"]

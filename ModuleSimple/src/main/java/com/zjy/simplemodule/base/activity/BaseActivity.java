@@ -1,69 +1,71 @@
 package com.zjy.simplemodule.base.activity;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.zjy.simplemodule.R;
+import com.zjy.simplemodule.base.IActivity;
 import com.zjy.simplemodule.utils.ActivityManager;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements IActivity {
 
     protected final String TAG = getClass().getSimpleName();
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!isBinding()) {
-            setContentView(getLayoutId());
+        if (isSupportBinding()) {
+            initBinding();
         } else {
-            bindingView();
+            setContentView(layoutId());
         }
-        if (isViewModel()) {
+        if (isSupportViewModel()) {
             initViewModel();
         }
-        ActivityManager.getInstance().addActivity(this);
-        if (getToolBar() != null) {
-            setSupportActionBar(getToolBar());
-            initToolbar(getSupportActionBar());
+        toolbar = getToolbar();
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null)
+                initToolbar(getSupportActionBar());
         }
-        initView(savedInstanceState);
+        init(savedInstanceState);
         initEvent();
         initData();
+        ActivityManager.getInstance().addActivity(this);
     }
 
-    @LayoutRes
-    protected abstract int getLayoutId();
-
-    protected abstract void initView(Bundle savedInstanceState);
-
-    protected abstract void initEvent();
-
-    protected abstract void initData();
-
-    protected void bindingView() {
+    private void initToolbar(ActionBar actionBar) {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
     }
 
-    protected void initViewModel() {
-
-    }
-
-    protected boolean isViewModel() {
-        return false;
-    }
-
-    protected Toolbar getToolBar() {
+    private Toolbar getToolbar() {
         return null;
     }
 
-    protected void initToolbar(ActionBar actionBar) {
+    @Override
+    public boolean isSupportBinding() {
+        return false;
     }
 
-    protected boolean isBinding() {
+    @Override
+    public boolean isSupportViewModel() {
         return false;
+    }
+
+    @Override
+    public void initBinding() {
+
+    }
+
+    @Override
+    public void initViewModel() {
+
     }
 
     protected BaseActivity getSelf() {

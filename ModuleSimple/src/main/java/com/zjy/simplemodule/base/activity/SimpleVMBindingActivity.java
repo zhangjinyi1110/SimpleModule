@@ -3,7 +3,9 @@ package com.zjy.simplemodule.base.activity;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 
-public abstract class SimpleBindingActivity<B extends ViewDataBinding> extends SimpleActivity {
+import com.zjy.simplemodule.base.BaseViewModel;
+
+public abstract class SimpleVMBindingActivity<VM extends BaseViewModel, B extends ViewDataBinding> extends SimpleVMActivity<VM> {
 
     protected B binding;
 
@@ -17,4 +19,5 @@ public abstract class SimpleBindingActivity<B extends ViewDataBinding> extends S
         super.initBinding();
         binding = DataBindingUtil.setContentView(this, layoutId());
     }
+
 }

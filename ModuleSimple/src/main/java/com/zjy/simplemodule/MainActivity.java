@@ -6,25 +6,24 @@ import com.zjy.simplemodule.base.activity.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 
+
     @Override
-    protected int getLayoutId() {
+    public int layoutId() {
         return R.layout.activity_main;
     }
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
+    public void init(Bundle savedInstanceState) {
 
     }
 
     @Override
-    protected void initEvent() {
+    public void initEvent() {
 
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
 
     }
-
-
 }
